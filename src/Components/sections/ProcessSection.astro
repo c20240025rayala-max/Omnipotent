@@ -42,7 +42,7 @@ const steps = [
 </section>
 
 <style>
-	.process { padding: 106px 0; background: #0c0d12; }
+	.process { padding: 106px 0; background: var(--surface); }
 	.process-heading { display: grid; grid-template-columns: 1fr 360px; align-items: end; gap: 46px; margin-bottom: 50px; }
 	h2 { margin: 0; font-size: clamp(3.2rem,6vw,5.3rem); line-height: .94; letter-spacing: -.08em; text-transform: uppercase; }
 	h2 span { color: var(--accent); }
@@ -50,7 +50,7 @@ const steps = [
 	.process-list { position: relative; display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
 	.process-list::before { position: absolute; top: 21px; right: 12%; left: 3%; height: 1px; content: ""; background: linear-gradient(90deg, var(--accent-bright), var(--cyan), transparent); opacity: .7; }
 	.process-list li { position: relative; min-height: 235px; padding: 0 18px 22px 0; }
-	.number { position: relative; z-index: 1; display: grid; width: 42px; height: 42px; place-items: center; margin-bottom: 26px; border: 1px solid rgba(167,139,250,.45); border-radius: 50%; color: #d8ccff; background: #0c0d12; font-size: .72rem; }
+	.number { position: relative; z-index: 1; display: grid; width: 42px; height: 42px; place-items: center; margin-bottom: 26px; border: 1px solid rgba(167,139,250,.45); border-radius: 50%; color: var(--accent); background: var(--surface); font-size: .72rem; }
 	h3 { margin: 0 0 10px; font-size: 1.1rem; letter-spacing: -.035em; }
 	.process-list p { max-width: 250px; margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.75; }
 	.step-mark { position: absolute; right: 14px; bottom: 20px; color: #677085; font-size: .9rem; }

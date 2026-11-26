@@ -40,7 +40,7 @@
 	.hero-grid { position: absolute; inset: 0; pointer-events: none; opacity: .16; background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(90deg, transparent, black 68%); }
 	.hero-content { position: relative; display: grid; min-height: 570px; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 42px; }
 	.hero-copy { position: relative; z-index: 2; padding-bottom: 36px; }
-	.hero :global(.eyebrow) { gap: 14px; color: #c4b5fd; }
+	.hero :global(.eyebrow) { gap: 14px; color: var(--accent); }
 	.availability { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .68rem; letter-spacing: .04em; text-transform: none; }
 	.availability i { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px rgba(34,211,238,.8); }
 	h1 { margin: 0; font-size: clamp(3.2rem, 6.4vw, 6.2rem); font-weight: 720; line-height: .96; letter-spacing: -.075em; }
@@ -52,8 +52,8 @@
 	.primary,.secondary { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: 26px; padding: 0 21px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; font-size: .88rem; font-weight: 700; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease; }
 	.primary { border-color: var(--accent-bright); color: white; background: var(--accent-bright); }
 	.primary:hover { transform: translateY(-2px); border-color: #a78bfa; background: #7c3aed; }
-	.secondary { color: #e2e8f0; background: rgba(255,255,255,.03); }
-	.secondary:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.08); }
+	.secondary { color: var(--ink); background: var(--surface); }
+	.secondary:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--raised); }
 	.hero-art { position: relative; height: 510px; perspective: 900px; }
 	.art-glow { position: absolute; inset: 16% 12%; border-radius: 50%; background: radial-gradient(circle, rgba(139,92,246,.32), rgba(34,211,238,.09) 42%, transparent 70%); filter: blur(26px); }
 	.art-grid { position: absolute; inset: 9% 0; opacity: .35; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 32px 32px; transform: perspective(500px) rotateY(-16deg) rotateX(7deg); mask-image: radial-gradient(ellipse, black, transparent 72%); }

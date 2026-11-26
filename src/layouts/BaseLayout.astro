@@ -18,6 +18,10 @@ const {
 		<meta name="description" content={description} />
 		<link rel="icon" type="image/png" href="/omnipotent-logo.png" />
 		<title>{title}</title>
+		<script is:inline>
+			const savedTheme = localStorage.getItem("omnipotent-theme");
+			if (savedTheme === "light") document.documentElement.dataset.theme = "light";
+		</script>
 	</head>
 	<body id="top">
 		<slot />
@@ -118,6 +122,7 @@ const {
 		color: #f8fafc;
 		background: #08090d;
 		font-synthesis: none;
+		color-scheme: dark;
 		--ink: #f8fafc;
 		--muted: #94a3b8;
 		--accent: #a78bfa;
@@ -127,10 +132,32 @@ const {
 		--surface: #11131a;
 		--card: #171a23;
 		--line: rgba(255,255,255,.1);
+		--grid-line: rgba(255,255,255,.07);
+		--raised: #1b1e29;
+		--nav-glass: rgba(8,9,13,.82);
+		--button-ink: #08090d;
+	}
+	:root[data-theme="light"] {
+		color-scheme: light;
+		color: #111827;
+		background: #f6f7fb;
+		--ink: #111827;
+		--muted: #596579;
+		--accent: #6d4fd3;
+		--accent-bright: #6d28d9;
+		--cyan: #087f9b;
+		--paper: #f6f7fb;
+		--surface: #ffffff;
+		--card: #ffffff;
+		--line: rgba(17,24,39,.12);
+		--grid-line: rgba(17,24,39,.07);
+		--raised: #f0eff7;
+		--nav-glass: rgba(246,247,251,.9);
+		--button-ink: #ffffff;
 	}
 	* { box-sizing: border-box; }
 	html { scroll-behavior: smooth; }
-	body { margin: 0; min-width: 320px; overflow-x: hidden; background: var(--paper); }
+	body { margin: 0; min-width: 320px; overflow-x: hidden; color: var(--ink); background: var(--paper); transition: color 220ms ease, background-color 220ms ease; }
 	a { color: inherit; text-decoration: none; }
 	button, input, textarea { font: inherit; }
 	section { scroll-margin-top: 104px; }
