@@ -5,8 +5,8 @@ interface Props {
 }
 
 const {
-	title = "Omnipotent | Digital Products & Innovation",
-	description = "Omnipotent creates thoughtful digital products, websites, and technology experiences.",
+	title = "Omnipotent | Web Development Studio",
+	description = "Omnipotent designs and develops responsive websites and custom web applications for ambitious teams.",
 } = Astro.props;
 ---
 
@@ -19,35 +19,138 @@ const {
 		<link rel="icon" type="image/png" href="/omnipotent-logo.png" />
 		<title>{title}</title>
 	</head>
-	<body>
+	<body id="top">
 		<slot />
 	</body>
 </html>
 
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		const heroWords = gsap.utils.toArray<HTMLElement>("[data-hero-word]");
+		const heroMeta = gsap.utils.toArray<HTMLElement>("[data-hero-meta]");
+		const heroArt = document.querySelector<HTMLElement>("[data-hero-art]");
+		if (heroWords.length) {
+			const heroTimeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+			heroTimeline.from(heroWords, { yPercent: 110, opacity: 0, duration: 0.8, stagger: 0.08 });
+			if (heroMeta.length) {
+				heroTimeline.from(heroMeta, { opacity: 0, y: 18, duration: 0.6, stagger: 0.12 }, "-=0.3");
+			}
+		}
+		if (heroArt) {
+			gsap.from(heroArt, {
+				opacity: 0,
+				scale: 0.96,
+				duration: 1,
+				delay: 0.12,
+				ease: "power3.out",
+			});
+		}
+
+		gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
+			gsap.fromTo(
+				element,
+				{ autoAlpha: 0, y: 24 },
+				{
+					autoAlpha: 1,
+					y: 0,
+					duration: 0.7,
+					ease: "power2.out",
+					scrollTrigger: {
+						trigger: element,
+						start: "top 88%",
+						once: true,
+					},
+				},
+			);
+		});
+
+		gsap.utils.toArray<HTMLElement>("[data-reveal-stagger]").forEach((group) => {
+			gsap.fromTo(
+				group.children,
+				{ autoAlpha: 0, y: 22 },
+				{
+					autoAlpha: 1,
+					y: 0,
+					duration: 0.65,
+					stagger: 0.12,
+					ease: "power2.out",
+					scrollTrigger: {
+						trigger: group,
+						start: "top 88%",
+						once: true,
+					},
+				},
+			);
+		});
+
+		gsap.utils.toArray<HTMLElement>("[data-counter]").forEach((element) => {
+			const target = Number(element.dataset.counter);
+			const counter = { value: 0 };
+			gsap.to(counter, {
+				value: target,
+				duration: 1.2,
+				ease: "power1.out",
+				scrollTrigger: {
+					trigger: element,
+					start: "top 88%",
+					once: true,
+				},
+				onUpdate: () => {
+					element.textContent = String(Math.round(counter.value));
+				},
+			});
+		});
+
+		gsap.utils.toArray<HTMLElement>("[data-marquee]").forEach((track) => {
+			gsap.to(track, { xPercent: -50, duration: 28, ease: "none", repeat: -1 });
+		});
+	}
+</script>
+
 <style is:global>
 	:root {
-		font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-		color: #101828;
-		background: #ffffff;
+		font-family: Inter, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+		color: #f8fafc;
+		background: #08090d;
 		font-synthesis: none;
+		--ink: #f8fafc;
+		--muted: #94a3b8;
+		--accent: #a78bfa;
+		--accent-bright: #8b5cf6;
+		--cyan: #22d3ee;
+		--paper: #08090d;
+		--surface: #11131a;
+		--card: #171a23;
+		--line: rgba(255,255,255,.1);
 	}
 	* { box-sizing: border-box; }
 	html { scroll-behavior: smooth; }
-	body { margin: 0; min-width: 320px; }
+	body { margin: 0; min-width: 320px; overflow-x: hidden; background: var(--paper); }
 	a { color: inherit; text-decoration: none; }
 	button, input, textarea { font: inherit; }
-	section { scroll-margin-top: 88px; }
-	.container { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+	section { scroll-margin-top: 104px; }
+	.container { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+	:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
 	.eyebrow {
 		display: inline-flex;
 		align-items: center;
-		gap: 8px;
-		margin: 0 0 16px;
-		color: #5d3fd3;
-		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.16em;
+		gap: 10px;
+		margin: 0 0 20px;
+		color: var(--accent);
+		font-size: 0.72rem;
+		font-weight: 750;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
 	}
-	.eyebrow::before { content: ""; width: 28px; height: 2px; background: #7c5cff; }
+	.eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+	.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+	@media (prefers-reduced-motion: reduce) {
+		html { scroll-behavior: auto; }
+		*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+	}
 </style>

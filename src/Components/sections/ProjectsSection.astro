@@ -1,0 +1,108 @@
+---
+const projects = [
+	{
+		name: "Vantage",
+		category: "Brand platform · Concept",
+		description: "A confident digital home for a next-generation advisory studio, built around clear storytelling and a focused conversion path.",
+		technologies: ["Astro", "TypeScript", "GSAP"],
+		theme: "violet",
+	},
+	{
+		name: "Ground",
+		category: "SaaS dashboard · Concept",
+		description: "A calmer analytics workspace that turns operational data into practical, easy-to-read insights.",
+		technologies: ["React", "Node.js", "Chart.js"],
+		theme: "green",
+	},
+	{
+		name: "Form & Field",
+		category: "E-commerce · Concept",
+		description: "A considered storefront concept with a simple product discovery and checkout experience.",
+		technologies: ["Next.js", "Tailwind CSS", "Stripe"],
+		theme: "cyan",
+	},
+];
+---
+
+<section class="projects" id="projects">
+	<div class="container">
+		<div class="heading" data-reveal>
+			<div><p class="eyebrow">Selected concepts</p><h2>Work with<br /><span>purpose.</span></h2></div>
+			<a href="/contact/">Discuss a similar project <span aria-hidden="true">↗</span></a>
+		</div>
+		<div class="project-grid" data-reveal-stagger>
+			{projects.map((project) => (
+				<details class={`project project-${project.theme}`}>
+					<summary>
+						<div class="project-preview" aria-hidden="true">
+							<div class="mock-browser"><div class="browser-bar"><i></i><i></i><i></i><span>preview.studio</span></div><div class="mock-content"><b></b><i></i><i></i><span></span></div></div>
+							<div class="preview-orb"></div>
+						</div>
+						<div class="project-info">
+							<div><p>{project.category}</p><h3>{project.name}</h3></div>
+							<span class="open-project">+</span>
+						</div>
+						<span class="sr-only">Toggle concept details for {project.name}</span>
+					</summary>
+					<div class="project-details">
+						<p>{project.description}</p>
+						<ul>{project.technologies.map((technology) => <li>{technology}</li>)}</ul>
+					</div>
+				</details>
+			))}
+		</div>
+		<p class="project-note">Concept work shown for demonstration. We’d love to add your real-world challenge next.</p>
+	</div>
+</section>
+
+<style>
+	.projects { padding: 110px 0; background: var(--paper); }
+	.heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 42px; }
+	h2 { margin: 0; font-size: clamp(3.2rem,6vw,5.5rem); line-height: .94; letter-spacing: -.075em; text-transform: uppercase; }
+	h2 span { color: var(--accent); }
+	.heading > a { display: inline-flex; gap: 14px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,.35); color: #d7d0f4; font-size: .82rem; font-weight: 650; transition: gap 180ms ease; }
+	.heading > a:hover { gap: 22px; }
+	.project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+	.project { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+	.project:last-child { grid-column: 1 / -1; }
+	summary { display: block; cursor: pointer; list-style: none; }
+	summary::-webkit-details-marker { display: none; }
+	.project-preview { position: relative; display: grid; min-height: 300px; overflow: hidden; place-items: center; }
+	.project-violet .project-preview { background: radial-gradient(circle at 68% 42%, rgba(139,92,246,.34), transparent 34%), #181522; }
+	.project-green .project-preview { background: radial-gradient(circle at 68% 42%, rgba(34,197,94,.2), transparent 34%), #101a18; }
+	.project-cyan .project-preview { background: radial-gradient(circle at 68% 42%, rgba(34,211,238,.18), transparent 34%), #111a20; }
+	.mock-browser { position: relative; z-index: 1; width: 68%; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 10px; background: #0c0d12; box-shadow: 0 24px 70px rgba(0,0,0,.4); transform: rotate(-3deg); transition: transform 450ms cubic-bezier(.2,.8,.2,1); }
+	.project-green .mock-browser { transform: rotate(3deg); }
+	.project-cyan .mock-browser { width: 72%; transform: rotate(-2deg); }
+	summary:hover .mock-browser { transform: rotate(0) scale(1.04); }
+	.browser-bar { display: flex; height: 29px; align-items: center; gap: 4px; padding: 0 9px; border-bottom: 1px solid rgba(255,255,255,.08); }
+	.browser-bar i { width: 5px; height: 5px; border-radius: 50%; background: #64748b; }
+	.browser-bar span { margin-left: 7px; color: #748093; font-size: .55rem; }
+	.mock-content { display: grid; min-height: 185px; align-content: center; gap: 11px; padding: 24px; }
+	.mock-content b { width: 58%; height: 18px; border-radius: 3px; background: #a78bfa; }
+	.mock-content i { width: 82%; height: 5px; border-radius: 8px; background: #343643; }
+	.mock-content i:last-of-type { width: 65%; }
+	.mock-content span { width: 66px; height: 19px; margin-top: 5px; border-radius: 999px; background: #8b5cf6; }
+	.project-green .mock-content b { background: #4ade80; }.project-green .mock-content span { background: #16a34a; }
+	.project-cyan .mock-content b { background: #67e8f9; }.project-cyan .mock-content span { background: #0891b2; }
+	.preview-orb { position: absolute; top: 16%; right: 12%; width: 74px; height: 74px; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; box-shadow: 0 0 50px rgba(167,139,250,.17); }
+	.project-info { display: flex; align-items: center; justify-content: space-between; padding: 21px 23px; }
+	.project-info p { margin: 0 0 7px; color: var(--muted); font-size: .7rem; }
+	h3 { margin: 0; font-size: 1.5rem; letter-spacing: -.05em; }
+	.open-project { display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: #c4b5fd; font-size: 1.15rem; transition: transform 200ms ease, background 200ms ease; }
+	details[open] .open-project { transform: rotate(45deg); background: rgba(139,92,246,.15); }
+	.project-details { padding: 0 23px 23px; animation: details-in 220ms ease both; }
+	.project-details p { max-width: 700px; margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.75; }
+	.project-details ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 15px 0 0; padding: 0; list-style: none; }
+	.project-details li { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; color: #cbd5e1; font-size: .68rem; }
+	.project-note { margin: 17px 0 0; color: #748093; font-size: .7rem; }
+	@keyframes details-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+	@media (max-width: 700px) {
+		.projects { padding: 82px 0; }
+		.heading { align-items: flex-start; flex-direction: column; }
+		.project-grid { grid-template-columns: 1fr; }
+		.project:last-child { grid-column: auto; }
+		.project-preview { min-height: 240px; }
+		.mock-content { min-height: 150px; }
+	}
+</style>

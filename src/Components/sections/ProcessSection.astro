@@ -1,0 +1,70 @@
+---
+const steps = [
+	{
+		number: "01",
+		title: "Discovery",
+		description: "We get aligned on your goals, audience, constraints, and what success should look like.",
+	},
+	{
+		number: "02",
+		title: "Design",
+		description: "We map the experience, explore visual directions, and test ideas before committing to code.",
+	},
+	{
+		number: "03",
+		title: "Development",
+		description: "We build a responsive, accessible product in focused, reviewable steps.",
+	},
+	{
+		number: "04",
+		title: "Launch & support",
+		description: "We test the details, prepare the release, and help you improve with confidence.",
+	},
+];
+---
+
+<section class="process" id="process">
+	<div class="container">
+		<div class="process-heading" data-reveal>
+			<div><p class="eyebrow">A clear path forward</p><h2>From idea<br />to <span>launch.</span></h2></div>
+			<p>Good work comes from clear decisions and close collaboration. Here’s what working together looks like.</p>
+		</div>
+		<ol class="process-list" data-reveal-stagger>
+			{steps.map((step) => (
+				<li>
+					<span class="number">{step.number}</span>
+					<div><h3>{step.title}</h3><p>{step.description}</p></div>
+					<span class="step-mark" aria-hidden="true">↗</span>
+				</li>
+			))}
+		</ol>
+	</div>
+</section>
+
+<style>
+	.process { padding: 106px 0; background: #0c0d12; }
+	.process-heading { display: grid; grid-template-columns: 1fr 360px; align-items: end; gap: 46px; margin-bottom: 50px; }
+	h2 { margin: 0; font-size: clamp(3.2rem,6vw,5.3rem); line-height: .94; letter-spacing: -.08em; text-transform: uppercase; }
+	h2 span { color: var(--accent); }
+	.process-heading > p { margin: 0 0 8px; color: var(--muted); font-size: .9rem; line-height: 1.8; }
+	.process-list { position: relative; display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
+	.process-list::before { position: absolute; top: 21px; right: 12%; left: 3%; height: 1px; content: ""; background: linear-gradient(90deg, var(--accent-bright), var(--cyan), transparent); opacity: .7; }
+	.process-list li { position: relative; min-height: 235px; padding: 0 18px 22px 0; }
+	.number { position: relative; z-index: 1; display: grid; width: 42px; height: 42px; place-items: center; margin-bottom: 26px; border: 1px solid rgba(167,139,250,.45); border-radius: 50%; color: #d8ccff; background: #0c0d12; font-size: .72rem; }
+	h3 { margin: 0 0 10px; font-size: 1.1rem; letter-spacing: -.035em; }
+	.process-list p { max-width: 250px; margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.75; }
+	.step-mark { position: absolute; right: 14px; bottom: 20px; color: #677085; font-size: .9rem; }
+	@media (max-width: 800px) {
+		.process { padding: 82px 0; }
+		.process-heading { grid-template-columns: 1fr; gap: 20px; }
+		.process-list { grid-template-columns: repeat(2,1fr); row-gap: 22px; }
+		.process-list::before { display: none; }
+		.process-list li { min-height: 190px; border-top: 1px solid var(--line); padding-top: 18px; }
+		.number { margin-bottom: 18px; }
+	}
+	@media (max-width: 520px) {
+		.process-list { grid-template-columns: 1fr; }
+		.process-list li { min-height: 0; padding-bottom: 24px; }
+		.process-list p { max-width: none; }
+	}
+</style>

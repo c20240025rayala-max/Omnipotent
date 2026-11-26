@@ -1,0 +1,132 @@
+<section class="contact" id="contact">
+	<div class="container">
+		<div class="contact-heading" data-reveal>
+			<div>
+				<p class="eyebrow">Have an idea?</p>
+				<h2>Let's build<br /><span>something great.</span></h2>
+				<p class="contact-intro">Tell us a little about what you’re working on. We’ll get back to you to talk through the next steps.</p>
+				<a class="email-link" href="mailto:hello@omnipotent.studio">hello@omnipotent.studio <span aria-hidden="true">↗</span></a>
+			</div>
+			<form class="project-form" id="project-inquiry">
+				<label>
+					Your name
+					<input name="name" autocomplete="name" required />
+				</label>
+				<label>
+					Email address
+					<input name="email" type="email" autocomplete="email" required />
+				</label>
+				<div class="form-row">
+					<label>
+						Project type
+						<select name="projectType" required>
+							<option value="" disabled selected>Select one</option>
+							<option>Website</option>
+							<option>Web application</option>
+							<option>E-commerce</option>
+							<option>Design and development</option>
+							<option>Ongoing support</option>
+							<option>Not sure yet</option>
+						</select>
+					</label>
+					<label>
+						Budget range
+						<select name="budget">
+							<option value="" selected>Prefer to discuss</option>
+							<option>Under $5,000</option>
+							<option>$5,000–$15,000</option>
+							<option>$15,000–$30,000</option>
+							<option>$30,000+</option>
+						</select>
+					</label>
+				</div>
+				<label>
+					What are you looking to build?
+					<textarea name="projectDescription" rows="4" required></textarea>
+				</label>
+				<button type="submit">Prepare project email <span aria-hidden="true">↗</span></button>
+				<p class="form-note" id="form-note" aria-live="polite">This opens your email app with your project details ready to send.</p>
+			</form>
+		</div>
+		<footer class="footer-row">
+			<a class="brand" href="/" aria-label="Omnipotent home">
+				<img class="brand-mark" src="/omnipotent-logo.png" alt="" />
+				<span>Omnipotent</span>
+			</a>
+			<p>Independent digital studio</p>
+			<nav aria-label="Footer navigation">
+				<a href="/services/">Services</a>
+				<a href="/projects/">Work</a>
+				<a href="/process/">Process</a>
+				<a href="#top">Back to top ↑</a>
+			</nav>
+			<span class="copyright">© {new Date().getFullYear()} Omnipotent Studio</span>
+		</footer>
+	</div>
+</section>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>("#project-inquiry");
+	const formNote = document.querySelector<HTMLElement>("#form-note");
+
+	form?.addEventListener("submit", (event) => {
+		event.preventDefault();
+		if (!form.reportValidity()) return;
+
+		const fields = new FormData(form);
+		const subject = `Project inquiry from ${String(fields.get("name"))}`;
+		const body = [
+			`Name: ${fields.get("name")}`,
+			`Email: ${fields.get("email")}`,
+			`Project type: ${fields.get("projectType")}`,
+			`Budget: ${fields.get("budget") || "Prefer to discuss"}`,
+			"",
+			"Project details:",
+			String(fields.get("projectDescription")),
+		].join("\n");
+		const mailto = `mailto:hello@omnipotent.studio?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+		if (formNote) formNote.textContent = "Your email app should open with the inquiry ready to send.";
+		window.location.href = mailto;
+	});
+</script>
+
+<style>
+	.contact { padding: 100px 0 0; background: #0c0d12; color: white; }
+	.contact-heading { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px,8vw,110px); padding-bottom: 88px; }
+	h2 { margin: 0; font-size: clamp(3.2rem,6.6vw,6rem); line-height: .94; letter-spacing: -.08em; text-transform: uppercase; }
+	h2 span { color: var(--accent); }
+	.contact-intro { max-width: 430px; margin: 24px 0; color: var(--muted); line-height: 1.8; }
+	.email-link { display: inline-flex; gap: 18px; padding-bottom: 6px; border-bottom: 1px solid rgba(167,139,250,.7); color: #d7cefa; font-size: .88rem; font-weight: 650; }
+	.project-form { display: grid; gap: 17px; }
+	label { display: grid; gap: 8px; color: #cbd5e1; font-size: .75rem; font-weight: 600; }
+	input,select,textarea { width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 9px; color: white; background: #11131a; font-size: .86rem; }
+	select:invalid { color: #718096; }
+	option { color: white; background: #11131a; }
+	textarea { min-height: 112px; resize: vertical; }
+	input:focus,select:focus,textarea:focus { border-color: #a78bfa; outline: 2px solid rgba(167,139,250,.22); }
+	.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+	button { display: flex; min-height: 48px; align-items: center; justify-content: space-between; padding: 0 17px; border: 0; border-radius: 9px; color: #090a0f; background: var(--cyan); font-size: .84rem; font-weight: 750; cursor: pointer; transition: background 180ms ease, transform 180ms ease; }
+	button:hover { transform: translateY(-2px); background: #67e8f9; }
+	.form-note { margin: -7px 0 0; color: #8490a2; font-size: .68rem; line-height: 1.6; }
+	.footer-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px 30px; min-height: 110px; border-top: 1px solid var(--line); }
+	.brand { display: inline-flex; align-items: center; gap: 9px; font-size: .95rem; font-weight: 750; letter-spacing: -.04em; }
+	.brand-mark { width: 32px; height: 32px; border-radius: 9px; object-fit: cover; }
+	.footer-row > p { margin: 0; color: var(--muted); font-size: .72rem; }
+	.footer-row nav { display: flex; flex-wrap: wrap; gap: 17px; justify-content: end; color: #cbd5e1; font-size: .7rem; }
+	.footer-row nav a:hover { color: var(--cyan); }
+	.copyright { grid-column: 1 / -1; margin: -10px 0 17px; color: #647084; font-size: .65rem; }
+	@media (max-width: 800px) {
+		.contact { padding-top: 78px; }
+		.contact-heading { grid-template-columns: 1fr; gap: 38px; padding-bottom: 64px; }
+		.footer-row { grid-template-columns: 1fr auto; padding: 24px 0 0; }
+		.footer-row nav { grid-column: 1 / -1; justify-content: start; }
+		.copyright { margin-top: 0; }
+	}
+	@media (max-width: 520px) {
+		.form-row { grid-template-columns: 1fr; }
+		.footer-row { grid-template-columns: 1fr; gap: 14px; }
+		.footer-row nav { grid-column: 1; justify-content: start; gap: 15px; }
+		.copyright { grid-column: 1; }
+	}
+</style>

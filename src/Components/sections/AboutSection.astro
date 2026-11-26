@@ -1,0 +1,55 @@
+<section class="about" id="about">
+	<div class="container">
+		<div class="about-grid" data-reveal>
+			<div class="about-heading">
+				<p class="eyebrow">More than code</p>
+				<h2>We build<br /><span>solutions.</span></h2>
+				<div class="about-orbit" aria-hidden="true"><span>O</span><i></i></div>
+			</div>
+			<div class="about-copy">
+				<p class="lead">Technology should make the hard things feel simple.</p>
+				<p>We bring thoughtful design and dependable engineering together to build digital products that work beautifully for the people who use them—and the teams who run them.</p>
+				<p>Small by design, we stay close to the work from the first conversation through launch and what comes next.</p>
+				<a href="/process/">Explore our approach <span aria-hidden="true">→</span></a>
+			</div>
+		</div>
+		<div class="about-stats" data-reveal-stagger aria-label="How we approach each project">
+			<div><strong><span data-counter="4">0</span></strong><span>clear delivery phases</span></div>
+			<div><strong><span data-counter="6">0</span></strong><span>connected capabilities</span></div>
+			<div><strong><span data-counter="8">0</span></strong><span>tools in our toolkit</span></div>
+			<div><strong><span data-counter="1">0</span></strong><span>focused project team</span></div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.about { position: relative; overflow: hidden; padding: 112px 0 72px; background: #0c0d12; color: white; }
+	.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+	.about-heading { position: relative; min-height: 340px; }
+	h2 { position: relative; z-index: 1; margin: 0; font-size: clamp(3.5rem, 6.5vw, 5.8rem); line-height: .92; letter-spacing: -.08em; text-transform: uppercase; }
+	h2 span { color: var(--accent); }
+	.about :global(.eyebrow) { color: #c4b5fd; }
+	.about-orbit { position: absolute; right: 9%; bottom: -30px; display: grid; width: 170px; height: 170px; place-items: center; border: 1px solid rgba(167,139,250,.22); border-radius: 50%; color: #c4b5fd; }
+	.about-orbit::before,.about-orbit::after { position: absolute; inset: 18px; border: 1px solid rgba(34,211,238,.18); border-radius: 50%; content: ""; }
+	.about-orbit::after { inset: 42px; border-style: dashed; }
+	.about-orbit span { font-size: 4.5rem; font-weight: 650; letter-spacing: -.1em; }
+	.about-orbit i { position: absolute; top: 24px; right: 19px; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+	.about-copy { padding-top: 24px; }
+	.about-copy p { max-width: 550px; color: var(--muted); line-height: 1.8; }
+	.about-copy .lead { margin: 0 0 18px; color: white; font-size: 1.5rem; line-height: 1.5; letter-spacing: -.025em; }
+	.about-copy a { display: inline-flex; gap: 24px; margin-top: 12px; padding-bottom: 7px; border-bottom: 1px solid #a78bfa; color: #d8ccff; font-weight: 700; transition: gap 180ms ease; }
+	.about-copy a:hover { gap: 32px; }
+	.about-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 78px; padding-top: 24px; border-top: 1px solid var(--line); }
+	.about-stats div { display: flex; flex-direction: column; gap: 8px; }
+	.about-stats strong { color: var(--cyan); font-size: 2rem; font-weight: 600; letter-spacing: -.06em; }
+	.about-stats div > span { color: var(--muted); font-size: .75rem; }
+	@media (max-width: 700px) {
+		.about { padding: 82px 0 56px; }
+		.about-grid { grid-template-columns: 1fr; gap: 16px; }
+		.about-heading { min-height: 280px; }
+		.about-orbit { right: 6%; bottom: -12px; width: 135px; height: 135px; }
+		.about-orbit span { font-size: 3.5rem; }
+		.about-copy { padding-top: 0; }
+		.about-stats { grid-template-columns: repeat(2, 1fr); row-gap: 24px; margin-top: 52px; }
+	}
+</style>
