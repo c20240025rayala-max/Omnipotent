@@ -1,11 +1,11 @@
-# Nexova
+# Omnipotent
 
-Nexova is a responsive digital studio website built with Astro.
+Omnipotent is a responsive digital studio website built with Astro.
 
 ## Pages
 
 - `/` — Home
-- `/about/` — About Nexova
+- `/about/` — About Omnipotent
 - `/services/` — Services
 - `/projects/` — Selected projects
 - `/contact/` — Contact
