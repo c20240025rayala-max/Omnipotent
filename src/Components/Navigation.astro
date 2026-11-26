@@ -1,0 +1,38 @@
+---
+const links = [
+	{ label: "About", href: "/about/" },
+	{ label: "Services", href: "/services/" },
+	{ label: "Work", href: "/projects/" },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="nav container" aria-label="Main navigation">
+	<a class="brand" href="/" aria-label="Nexova home">
+		<img class="brand-mark" src="/nexova-logo.png" alt="" />
+		<span>Nexova</span>
+	</a>
+	<div class="nav-links">
+		{links.map(({ label, href }) => (
+			<a href={href} aria-current={currentPath === href ? "page" : undefined}>{label}</a>
+		))}
+		<a class="nav-cta" href="/contact/" aria-current={currentPath === "/contact/" ? "page" : undefined}>Let's talk</a>
+	</div>
+</nav>
+
+<style>
+	.nav { height: 88px; display: flex; align-items: center; justify-content: space-between; }
+	.brand { display: inline-flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 850; letter-spacing: -.04em; }
+	.brand-mark { width: 42px; height: 42px; border-radius: 11px; object-fit: cover; }
+	.nav-links { display: flex; align-items: center; gap: 32px; font-size: .92rem; font-weight: 700; }
+	.nav-links a { transition: color 180ms ease; }
+	.nav-links a:hover,.nav-links a[aria-current="page"]:not(.nav-cta) { color: #6545df; }
+	.nav-cta { padding: 12px 18px; border-radius: 10px; color: white; background: #101828; }
+	.nav-links .nav-cta:hover,.nav-links .nav-cta[aria-current="page"] { color: white; background: #6545df; }
+	@media (max-width: 900px) {
+		.nav-links a:not(.nav-cta) { display: none; }
+	}
+	@media (max-width: 520px) {
+		.nav { height: 76px; }
+	}
+</style>

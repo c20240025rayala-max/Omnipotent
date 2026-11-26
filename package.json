@@ -1,5 +1,5 @@
 {
-  "name": "omnipotent",
+  "name": "nexova",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,9 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "live": "npm run build && live-server dist --port=5500 --host=127.0.0.1 --no-browser",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^7.4.13"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
   }
 }
