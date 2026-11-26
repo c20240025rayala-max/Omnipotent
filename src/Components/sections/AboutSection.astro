@@ -1,55 +1,212 @@
-<section class="about" id="about">
+---
+const team = [
+	{
+		initials: "RR",
+		name: "Reden Rayala",
+		role: "Web Developer",
+		introduction:
+			"Passionate about building modern, responsive, and high-performing websites. Focused on transforming creative ideas into functional digital experiences through clean code and innovative web technologies.",
+		skills: [
+			"Frontend Development",
+			"Responsive Web Design",
+			"Tailwind CSS",
+			"JavaScript",
+			"React",
+			"GSAP Animations",
+		],
+		className: "reden",
+	},
+	{
+		initials: "QRD",
+		name: "Queen Rosemher Dumali",
+		role: "Creative Partner / Web Design Collaborator",
+		introduction:
+			"Passionate about creating meaningful digital experiences through creativity, collaboration, and thoughtful design. Focused on making websites visually engaging, user-friendly, and memorable.",
+		skills: [
+			"UI/UX Design",
+			"Creative Direction",
+			"Visual Design",
+			"User Experience",
+			"Design Collaboration",
+		],
+		className: "queen",
+	},
+];
+---
+
+<section class="about-team" id="about">
 	<div class="container">
-		<div class="about-grid" data-reveal>
-			<div class="about-heading">
-				<p class="eyebrow">More than code</p>
-				<h2>We build<br /><span>solutions.</span></h2>
-				<div class="about-orbit" aria-hidden="true"><span>O</span><i></i></div>
-			</div>
-			<div class="about-copy">
-				<p class="lead">Technology should make the hard things feel simple.</p>
-				<p>We bring thoughtful design and dependable engineering together to build digital products that work beautifully for the people who use them—and the teams who run them.</p>
-				<p>Small by design, we stay close to the work from the first conversation through launch and what comes next.</p>
-				<a href="/process/">Explore our approach <span aria-hidden="true">→</span></a>
-			</div>
-		</div>
-		<div class="about-stats" data-reveal-stagger aria-label="How we approach each project">
-			<div><strong><span data-counter="4">0</span></strong><span>clear delivery phases</span></div>
-			<div><strong><span data-counter="6">0</span></strong><span>connected capabilities</span></div>
-			<div><strong><span data-counter="8">0</span></strong><span>tools in our toolkit</span></div>
-			<div><strong><span data-counter="1">0</span></strong><span>focused project team</span></div>
+		<header class="team-heading">
+			<p class="eyebrow">The people behind the pixels</p>
+			<h2 aria-label="Meet the Minds Behind the Magic.">
+				<span class="heading-line"><span class="heading-word">Meet the</span></span>
+				<span class="heading-line heading-accent"><span class="heading-word">Minds Behind</span></span>
+				<span class="heading-line"><span class="heading-word">the Magic.</span></span>
+			</h2>
+			<p class="heading-description">Great digital experiences are built by passionate people. Meet the creative minds turning ideas into meaningful digital experiences through design, technology, and innovation.</p>
+		</header>
+
+		<div class="team-grid">
+			{team.map((member, index) => (
+				<article class={`member-card ${member.className}`}>
+					<div class="member-portrait" role="img" aria-label={`Portrait placeholder for ${member.name}`}>
+						<div class="portrait-grid" aria-hidden="true"></div>
+						<div class="portrait-glow" aria-hidden="true"></div>
+						<div class="portrait-ring ring-one" aria-hidden="true"></div>
+						<div class="portrait-ring ring-two" aria-hidden="true"></div>
+						<div class="portrait-person" aria-hidden="true"><span>{member.initials}</span></div>
+						<div class="portrait-label"><span>Creator {String(index + 1).padStart(2, "0")}</span><span>Profile image placeholder</span></div>
+					</div>
+
+					<div class="member-content">
+						<p class="member-index">0{index + 1} <span>—</span> Omnipotent Studio</p>
+						<h3 class="member-name">{member.name}</h3>
+						<p class="member-role">{member.role}</p>
+						<p class="member-introduction">{member.introduction}</p>
+						<ul class="skill-list" aria-label={`${member.name}'s skills`}>
+							{member.skills.map((skill) => <li class="skill-tag">{skill}</li>)}
+						</ul>
+					</div>
+				</article>
+			))}
 		</div>
 	</div>
 </section>
 
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	document.querySelectorAll<HTMLElement>(".about-team").forEach((section) => {
+		const context = gsap.context(() => {
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+			gsap.from(".heading-word", {
+				yPercent: 110,
+				opacity: 0,
+				duration: 0.75,
+				stagger: 0.1,
+				ease: "power3.out",
+				scrollTrigger: {
+					trigger: ".team-heading",
+					start: "top 82%",
+					once: true,
+				},
+			});
+			gsap.from(".heading-description", {
+				y: 18,
+				autoAlpha: 0,
+				duration: 0.65,
+				delay: 0.2,
+				ease: "power2.out",
+				scrollTrigger: {
+					trigger: ".team-heading",
+					start: "top 82%",
+					once: true,
+				},
+			});
+
+			gsap.utils.toArray<HTMLElement>(".member-card").forEach((card) => {
+				const portrait = card.querySelector(".member-portrait");
+				const name = card.querySelector(".member-name");
+				const role = card.querySelector(".member-role");
+				const introduction = card.querySelector(".member-introduction");
+				const skills = card.querySelectorAll(".skill-tag");
+				const timeline = gsap.timeline({
+					scrollTrigger: {
+						trigger: card,
+						start: "top 84%",
+						once: true,
+					},
+				});
+
+				timeline
+					.from(card, { autoAlpha: 0, y: 28, duration: 0.6, ease: "power2.out" })
+					.from(portrait, { clipPath: "inset(0 0 100% 0)", scale: 1.04, duration: 0.8, ease: "power3.out" }, "-=0.25")
+					.from(name, { y: 16, autoAlpha: 0, duration: 0.5, ease: "power2.out" }, "-=0.35")
+					.from([role, introduction], { y: 12, autoAlpha: 0, duration: 0.45, stagger: 0.1, ease: "power2.out" }, "-=0.24")
+					.from(skills, { y: 8, autoAlpha: 0, duration: 0.32, stagger: 0.045, ease: "power2.out" }, "-=0.15");
+			});
+
+			gsap.to(".portrait-glow", {
+				y: -9,
+				duration: 3.2,
+				repeat: -1,
+				yoyo: true,
+				ease: "sine.inOut",
+			});
+		}, section);
+
+		document.addEventListener("astro:before-swap", () => context.revert(), { once: true });
+	});
+</script>
+
 <style>
-	.about { position: relative; overflow: hidden; padding: 112px 0 72px; background: #0c0d12; color: white; }
-	.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-	.about-heading { position: relative; min-height: 340px; }
-	h2 { position: relative; z-index: 1; margin: 0; font-size: clamp(3.5rem, 6.5vw, 5.8rem); line-height: .92; letter-spacing: -.08em; text-transform: uppercase; }
-	h2 span { color: var(--accent); }
-	.about :global(.eyebrow) { color: #c4b5fd; }
-	.about-orbit { position: absolute; right: 9%; bottom: -30px; display: grid; width: 170px; height: 170px; place-items: center; border: 1px solid rgba(167,139,250,.22); border-radius: 50%; color: #c4b5fd; }
-	.about-orbit::before,.about-orbit::after { position: absolute; inset: 18px; border: 1px solid rgba(34,211,238,.18); border-radius: 50%; content: ""; }
-	.about-orbit::after { inset: 42px; border-style: dashed; }
-	.about-orbit span { font-size: 4.5rem; font-weight: 650; letter-spacing: -.1em; }
-	.about-orbit i { position: absolute; top: 24px; right: 19px; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
-	.about-copy { padding-top: 24px; }
-	.about-copy p { max-width: 550px; color: var(--muted); line-height: 1.8; }
-	.about-copy .lead { margin: 0 0 18px; color: white; font-size: 1.5rem; line-height: 1.5; letter-spacing: -.025em; }
-	.about-copy a { display: inline-flex; gap: 24px; margin-top: 12px; padding-bottom: 7px; border-bottom: 1px solid #a78bfa; color: #d8ccff; font-weight: 700; transition: gap 180ms ease; }
-	.about-copy a:hover { gap: 32px; }
-	.about-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 78px; padding-top: 24px; border-top: 1px solid var(--line); }
-	.about-stats div { display: flex; flex-direction: column; gap: 8px; }
-	.about-stats strong { color: var(--cyan); font-size: 2rem; font-weight: 600; letter-spacing: -.06em; }
-	.about-stats div > span { color: var(--muted); font-size: .75rem; }
-	@media (max-width: 700px) {
-		.about { padding: 82px 0 56px; }
-		.about-grid { grid-template-columns: 1fr; gap: 16px; }
-		.about-heading { min-height: 280px; }
-		.about-orbit { right: 6%; bottom: -12px; width: 135px; height: 135px; }
-		.about-orbit span { font-size: 3.5rem; }
-		.about-copy { padding-top: 0; }
-		.about-stats { grid-template-columns: repeat(2, 1fr); row-gap: 24px; margin-top: 52px; }
+	.about-team { position: relative; overflow: hidden; padding: 104px 0 116px; background: #0c0d12; color: #f8fafc; }
+	.about-team::before { position: absolute; top: 0; left: 50%; width: min(950px, 100%); height: 1px; content: ""; background: linear-gradient(90deg, transparent, rgba(167,139,250,.34), transparent); transform: translateX(-50%); }
+	.team-heading { max-width: 880px; margin: 0 auto 62px; text-align: center; }
+	.about-team :global(.eyebrow) { margin-bottom: 20px; color: #c4b5fd; }
+	.team-heading h2 { margin: 0; font-size: clamp(3.1rem, 7vw, 6.2rem); font-weight: 720; line-height: .96; letter-spacing: -.075em; }
+	.heading-line { display: block; overflow: hidden; padding-bottom: .07em; }
+	.heading-accent { color: #a78bfa; }
+	.heading-word { display: inline-block; }
+	.heading-description { max-width: 680px; margin: 20px auto 0; color: #94a3b8; font-size: .98rem; line-height: 1.8; }
+	.team-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 24px; }
+	.member-card { min-width: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 18px; background: linear-gradient(155deg, rgba(23,26,35,.96), rgba(15,17,24,.98)); transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease; }
+	.member-card.queen { margin-top: 52px; }
+	.member-card:hover { transform: translateY(-5px); border-color: rgba(167,139,250,.4); box-shadow: 0 24px 70px rgba(0,0,0,.24); }
+	.member-portrait { position: relative; display: grid; min-height: 340px; overflow: hidden; place-items: center; isolation: isolate; background: #11131a; clip-path: inset(0 round 14px); }
+	.reden .member-portrait { background: radial-gradient(ellipse at 70% 48%, rgba(139,92,246,.25), transparent 49%), linear-gradient(135deg, #15141f, #10131a); }
+	.queen .member-portrait { background: radial-gradient(ellipse at 34% 50%, rgba(34,211,238,.18), transparent 48%), linear-gradient(145deg, #10171b, #15131d); }
+	.portrait-grid { position: absolute; z-index: -1; inset: 0; opacity: .24; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse at center, black, transparent 75%); }
+	.portrait-glow { position: absolute; z-index: -1; width: 230px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(139,92,246,.42), rgba(34,211,238,.1) 45%, transparent 70%); filter: blur(13px); }
+	.queen .portrait-glow { background: radial-gradient(circle, rgba(34,211,238,.32), rgba(139,92,246,.12) 48%, transparent 72%); }
+	.portrait-ring { position: absolute; z-index: -1; width: 250px; height: 250px; border: 1px solid rgba(196,181,253,.28); border-radius: 50%; transform: rotate(-24deg) scaleX(.72); }
+	.ring-two { width: 290px; height: 290px; border-color: rgba(34,211,238,.18); border-style: dashed; transform: rotate(38deg) scaleX(.74); }
+	.queen .ring-one { border-color: rgba(34,211,238,.27); transform: rotate(24deg) scaleX(.72); }
+	.queen .ring-two { border-color: rgba(196,181,253,.2); transform: rotate(-38deg) scaleX(.74); }
+	.portrait-person { position: relative; display: grid; width: 172px; height: 214px; align-items: end; justify-items: center; padding-bottom: 22px; border: 1px solid rgba(255,255,255,.24); border-radius: 49% 49% 18px 18px; background: linear-gradient(155deg, rgba(167,139,250,.32), rgba(34,211,238,.12) 44%, rgba(17,19,26,.86) 78%); box-shadow: 0 22px 65px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.18); transition: transform 450ms cubic-bezier(.2,.8,.2,1); }
+	.portrait-person::before { position: absolute; top: 28px; left: 50%; width: 68px; height: 68px; border: 1px solid rgba(255,255,255,.26); border-radius: 50%; content: ""; background: linear-gradient(145deg, rgba(196,181,253,.48), rgba(34,211,238,.16)); box-shadow: 0 0 35px rgba(139,92,246,.18); transform: translateX(-50%); }
+	.portrait-person::after { position: absolute; right: 21px; bottom: 60px; left: 21px; height: 78px; border: 1px solid rgba(255,255,255,.14); border-radius: 60% 60% 14px 14px; content: ""; background: linear-gradient(145deg, rgba(139,92,246,.3), rgba(17,19,26,.78)); }
+	.queen .portrait-person { background: linear-gradient(155deg, rgba(34,211,238,.26), rgba(167,139,250,.16) 48%, rgba(17,19,26,.88) 78%); }
+	.queen .portrait-person::before { background: linear-gradient(145deg, rgba(34,211,238,.4), rgba(196,181,253,.3)); }
+	.queen .portrait-person::after { background: linear-gradient(145deg, rgba(34,211,238,.22), rgba(17,19,26,.8)); }
+	.portrait-person span { position: relative; z-index: 1; color: rgba(255,255,255,.88); font-size: .72rem; font-weight: 700; letter-spacing: .16em; }
+	.member-card:hover .portrait-person { transform: scale(1.045); }
+	.portrait-label { position: absolute; right: 18px; bottom: 16px; left: 18px; display: flex; justify-content: space-between; gap: 12px; color: #8d98ab; font-size: .62rem; letter-spacing: .04em; }
+	.portrait-label span:first-child { color: #d3c8fa; text-transform: uppercase; }
+	.member-content { padding: 26px 28px 30px; }
+	.member-index { margin: 0 0 13px; color: #22d3ee; font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+	.member-index span { padding-inline: 5px; color: #718096; }
+	.member-name { margin: 0; font-size: clamp(1.8rem,3vw,2.45rem); font-weight: 680; line-height: 1.08; letter-spacing: -.06em; }
+	.member-role { margin: 8px 0 0; color: #c4b5fd; font-size: .8rem; font-weight: 600; line-height: 1.6; }
+	.member-introduction { min-height: 100px; margin: 18px 0 20px; color: #a5afbf; font-size: .86rem; line-height: 1.8; }
+	.skill-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+	.skill-tag { padding: 7px 10px; border: 1px solid rgba(255,255,255,.11); border-radius: 999px; color: #d6dbe5; background: rgba(255,255,255,.025); font-size: .66rem; line-height: 1.2; transition: border-color 180ms ease, color 180ms ease, background 180ms ease; }
+	.skill-tag:hover { border-color: rgba(34,211,238,.4); color: #e7fbff; background: rgba(34,211,238,.07); }
+	@media (max-width: 850px) {
+		.about-team { padding: 86px 0 94px; }
+		.team-grid { gap: 16px; }
+		.member-card.queen { margin-top: 34px; }
+		.member-portrait { min-height: 290px; }
+		.member-content { padding: 23px 20px 25px; }
+		.member-introduction { min-height: 130px; }
+	}
+	@media (max-width: 640px) {
+		.about-team { padding: 74px 0 82px; }
+		.team-heading { margin-bottom: 38px; text-align: left; }
+		.team-heading h2 { font-size: clamp(2.8rem,11.5vw,4.2rem); }
+		.heading-description { margin-inline: 0; font-size: .9rem; }
+		.team-grid { grid-template-columns: 1fr; gap: 18px; }
+		.member-card.queen { margin-top: 0; }
+		.member-portrait { min-height: clamp(260px,78vw,360px); }
+		.member-content { padding: 23px 22px 27px; }
+		.member-name { font-size: clamp(1.9rem,8vw,2.6rem); }
+		.member-introduction { min-height: 0; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.member-card,.portrait-person,.skill-tag { transition: none; }
 	}
 </style>
