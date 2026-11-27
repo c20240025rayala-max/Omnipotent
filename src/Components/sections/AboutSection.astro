@@ -1,37 +1,26 @@
 ---
-import Card from "../Card.astro";
-
 const team = [
 	{
-		initials: "RR",
+		index: "Creator 01",
 		name: "Reden Rayala",
 		role: "Web Developer",
 		introduction:
-			"Passionate about building modern, responsive, and high-performing websites. Focused on transforming creative ideas into functional digital experiences through clean code and innovative web technologies.",
-		skills: [
-			"Frontend Development",
-			"Responsive Web Design",
-			"Tailwind CSS",
-			"JavaScript",
-			"React",
-			"GSAP Animations",
-		],
+			"Passionate about building modern, responsive, and high-performing websites. Focused on transforming creative ideas into functional digital experiences through clean code and innovative technologies.",
+		image: "/reden-rayala.webp",
+		alt: "Reden Rayala, Web Developer, wearing black formal attire",
 		className: "reden",
+		accent: "cyan",
 	},
 	{
-		initials: "QRD",
+		index: "Creator 02",
 		name: "Queen Rosemher Dumali",
 		role: "Creative Partner / Web Design Collaborator",
 		introduction:
-			"Passionate about creating meaningful digital experiences through creativity, collaboration, and thoughtful design. Focused on making websites visually engaging, user-friendly, and memorable.",
-		skills: [
-			"UI/UX Design",
-			"Creative Direction",
-			"Visual Design",
-			"User Experience",
-			"Design Collaboration",
-		],
+			"Passionate about creating meaningful digital experiences through creativity, thoughtful design, and user-centered visual solutions.",
+		image: "/queen-rosemher-dumali.webp",
+		alt: "Queen Rosemher Dumali, Creative Partner and Web Design Collaborator, wearing black formal attire",
 		className: "queen",
+		accent: "violet",
 	},
 ];
 ---
@@ -39,17 +28,34 @@ const team = [
 <section class="about-team" id="about">
 	<div class="container">
 		<header class="team-heading">
-			<p class="eyebrow">The people behind the pixels</p>
-			<h2 aria-label="Meet the Minds Behind the Magic.">
-				<span class="heading-line"><span class="heading-word">Meet the</span></span>
-				<span class="heading-line heading-accent"><span class="heading-word">Minds Behind</span></span>
-				<span class="heading-line"><span class="heading-word">the Magic.</span></span>
-			</h2>
-			<p class="heading-description">Great digital experiences are built by passionate people. Meet the creative minds turning ideas into meaningful digital experiences through design, technology, and innovation.</p>
+			<p class="eyebrow">The people behind Omnipotent</p>
+			<h2>Meet the Minds Behind Omnipotent</h2>
+			<p class="heading-description">A creative team combining technology, innovation, and design to build meaningful digital experiences.</p>
 		</header>
 
 		<div class="team-grid">
-			{team.map((member, index) => <Card variant="team" item={member} index={index} />)}
+			{team.map((member) => (
+				<article class:list={["profile-card", member.className]}>
+					<div class="profile-visual" data-profile-visual>
+						<div class="visual-grid" aria-hidden="true"></div>
+						<div class="visual-glow" aria-hidden="true"></div>
+						<div class="visual-ring ring-one" aria-hidden="true"></div>
+						<div class="visual-ring ring-two" aria-hidden="true"></div>
+						<div class="portrait-frame" data-parallax>
+							<img src={member.image} alt={member.alt} width="900" height="1200" loading="lazy" />
+							<div class="portrait-sheen" aria-hidden="true"></div>
+						</div>
+						<div class="visual-status" aria-hidden="true"><i></i>{member.accent === "cyan" ? "Development" : "Creative"}</div>
+						<div class="creator-mark" aria-hidden="true">{member.index.replace("Creator ", "")}</div>
+					</div>
+					<div class="profile-content">
+						<p class="member-index">{member.index}</p>
+						<h3>{member.name}</h3>
+						<p class="member-role">{member.role}</p>
+						<p class="member-introduction">{member.introduction}</p>
+					</div>
+				</article>
+			))}
 		</div>
 	</div>
 </section>
@@ -61,62 +67,53 @@ const team = [
 	gsap.registerPlugin(ScrollTrigger);
 
 	document.querySelectorAll<HTMLElement>(".about-team").forEach((section) => {
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const context = gsap.context(() => {
-			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			if (reduceMotion) return;
 
-			gsap.from(".heading-word", {
-				yPercent: 110,
-				opacity: 0,
-				duration: 0.75,
-				stagger: 0.1,
-				ease: "power3.out",
-				scrollTrigger: {
-					trigger: ".team-heading",
-					start: "top 82%",
-					once: true,
-				},
-			});
-			gsap.from(".heading-description", {
-				y: 18,
+			gsap.from(".team-heading", {
+				y: 24,
 				autoAlpha: 0,
-				duration: 0.65,
-				delay: 0.2,
-				ease: "power2.out",
-				scrollTrigger: {
-					trigger: ".team-heading",
-					start: "top 82%",
-					once: true,
-				},
+				duration: 0.75,
+				ease: "power3.out",
+				scrollTrigger: { trigger: ".team-heading", start: "top 82%", once: true },
 			});
 
-			gsap.utils.toArray<HTMLElement>(".member-card").forEach((card) => {
-				const portrait = card.querySelector(".member-portrait");
-				const name = card.querySelector(".member-name");
-				const role = card.querySelector(".member-role");
-				const introduction = card.querySelector(".member-introduction");
-				const skills = card.querySelectorAll(".skill-tag");
-				const timeline = gsap.timeline({
-					scrollTrigger: {
-						trigger: card,
-						start: "top 84%",
-						once: true,
-					},
+			gsap.utils.toArray<HTMLElement>(".profile-card").forEach((card, index) => {
+				gsap.timeline({
+					scrollTrigger: { trigger: card, start: "top 86%", once: true },
+				})
+					.from(card, { y: 36, autoAlpha: 0, duration: 0.75, ease: "power3.out" })
+					.from(card.querySelector(".portrait-frame"), { clipPath: "inset(12% 12% 12% 12% round 22px)", scale: 1.08, duration: 0.9, ease: "power3.out" }, "-=0.45")
+					.from(card.querySelectorAll(".profile-content > *"), { y: 14, autoAlpha: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }, "-=0.42");
+
+				const frame = card.querySelector<HTMLElement>(".portrait-frame");
+				const visual = card.querySelector<HTMLElement>(".profile-visual");
+
+				card.addEventListener("pointermove", (event) => {
+					if (event.pointerType === "touch") return;
+					const rect = card.getBoundingClientRect();
+					const x = (event.clientX - rect.left) / rect.width - 0.5;
+					const y = (event.clientY - rect.top) / rect.height - 0.5;
+					gsap.to(card, { rotateY: x * 5, rotateX: y * -4, duration: 0.55, ease: "power2.out", transformPerspective: 1100 });
+					if (frame) gsap.to(frame, { x: x * 10, y: y * 8, duration: 0.55, ease: "power2.out" });
+					if (visual) gsap.to(visual, { backgroundPosition: `${50 + x * 8}% ${50 + y * 8}%`, duration: 0.55, ease: "power2.out" });
 				});
 
-				timeline
-					.from(card, { autoAlpha: 0, y: 28, duration: 0.6, ease: "power2.out" })
-					.from(portrait, { clipPath: "inset(0 0 100% 0)", scale: 1.04, duration: 0.8, ease: "power3.out" }, "-=0.25")
-					.from(name, { y: 16, autoAlpha: 0, duration: 0.5, ease: "power2.out" }, "-=0.35")
-					.from([role, introduction], { y: 12, autoAlpha: 0, duration: 0.45, stagger: 0.1, ease: "power2.out" }, "-=0.24")
-					.from(skills, { y: 8, autoAlpha: 0, duration: 0.32, stagger: 0.045, ease: "power2.out" }, "-=0.15");
-			});
+				card.addEventListener("pointerleave", () => {
+					gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.7, ease: "power3.out" });
+					if (frame) gsap.to(frame, { x: 0, y: 0, duration: 0.7, ease: "power3.out" });
+				});
 
-			gsap.to(".portrait-glow", {
-				y: -9,
-				duration: 3.2,
-				repeat: -1,
-				yoyo: true,
-				ease: "sine.inOut",
+				if (frame) {
+					gsap.to(frame, {
+						y: index % 2 === 0 ? -7 : 7,
+						duration: index % 2 === 0 ? 3.8 : 4.2,
+						repeat: -1,
+						yoyo: true,
+						ease: "sine.inOut",
+					});
+				}
 			});
 		}, section);
 
@@ -127,67 +124,60 @@ const team = [
 <style>
 	.about-team { position: relative; overflow: hidden; padding: 104px 0 116px; background: var(--paper); color: var(--ink); }
 	.about-team::before { position: absolute; top: 0; left: 50%; width: min(950px, 100%); height: 1px; content: ""; background: linear-gradient(90deg, transparent, rgba(167,139,250,.34), transparent); transform: translateX(-50%); }
-	.team-heading { max-width: 880px; margin: 0 auto 62px; text-align: center; }
+	.team-heading { max-width: 820px; margin: 0 auto 62px; text-align: center; }
 	.about-team :global(.eyebrow) { margin-bottom: 20px; color: var(--accent); }
-	.team-heading h2 { margin: 0; font-size: clamp(3.1rem, 7vw, 6.2rem); font-weight: 720; line-height: .96; letter-spacing: -.075em; }
-	.heading-line { display: block; overflow: hidden; padding-bottom: .07em; }
-	.heading-accent { color: #a78bfa; }
-	.heading-word { display: inline-block; }
-	.heading-description { max-width: 680px; margin: 20px auto 0; color: var(--muted); font-size: .98rem; line-height: 1.8; }
-	.team-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 24px; }
-	.member-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--card); transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease; }
-	.member-card.queen { margin-top: 52px; }
-	.member-card:hover { transform: translateY(-5px); border-color: rgba(167,139,250,.4); box-shadow: 0 24px 70px rgba(0,0,0,.24); }
-	.member-portrait { position: relative; display: grid; min-height: 340px; overflow: hidden; place-items: center; isolation: isolate; background: #11131a; clip-path: inset(0 round 14px); }
-	.reden .member-portrait { background: radial-gradient(ellipse at 70% 48%, rgba(139,92,246,.25), transparent 49%), linear-gradient(135deg, #15141f, #10131a); }
-	.queen .member-portrait { background: radial-gradient(ellipse at 34% 50%, rgba(34,211,238,.18), transparent 48%), linear-gradient(145deg, #10171b, #15131d); }
-	.portrait-grid { position: absolute; z-index: -1; inset: 0; opacity: .24; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse at center, black, transparent 75%); }
-	.portrait-glow { position: absolute; z-index: -1; width: 230px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(139,92,246,.42), rgba(34,211,238,.1) 45%, transparent 70%); filter: blur(13px); }
-	.queen .portrait-glow { background: radial-gradient(circle, rgba(34,211,238,.32), rgba(139,92,246,.12) 48%, transparent 72%); }
-	.portrait-ring { position: absolute; z-index: -1; width: 250px; height: 250px; border: 1px solid rgba(196,181,253,.28); border-radius: 50%; transform: rotate(-24deg) scaleX(.72); }
-	.ring-two { width: 290px; height: 290px; border-color: rgba(34,211,238,.18); border-style: dashed; transform: rotate(38deg) scaleX(.74); }
-	.queen .ring-one { border-color: rgba(34,211,238,.27); transform: rotate(24deg) scaleX(.72); }
-	.queen .ring-two { border-color: rgba(196,181,253,.2); transform: rotate(-38deg) scaleX(.74); }
-	.portrait-person { position: relative; display: grid; width: 172px; height: 214px; align-items: end; justify-items: center; padding-bottom: 22px; border: 1px solid rgba(255,255,255,.24); border-radius: 49% 49% 18px 18px; background: linear-gradient(155deg, rgba(167,139,250,.32), rgba(34,211,238,.12) 44%, rgba(17,19,26,.86) 78%); box-shadow: 0 22px 65px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.18); transition: transform 450ms cubic-bezier(.2,.8,.2,1); }
-	.portrait-person::before { position: absolute; top: 28px; left: 50%; width: 68px; height: 68px; border: 1px solid rgba(255,255,255,.26); border-radius: 50%; content: ""; background: linear-gradient(145deg, rgba(196,181,253,.48), rgba(34,211,238,.16)); box-shadow: 0 0 35px rgba(139,92,246,.18); transform: translateX(-50%); }
-	.portrait-person::after { position: absolute; right: 21px; bottom: 60px; left: 21px; height: 78px; border: 1px solid rgba(255,255,255,.14); border-radius: 60% 60% 14px 14px; content: ""; background: linear-gradient(145deg, rgba(139,92,246,.3), rgba(17,19,26,.78)); }
-	.queen .portrait-person { background: linear-gradient(155deg, rgba(34,211,238,.26), rgba(167,139,250,.16) 48%, rgba(17,19,26,.88) 78%); }
-	.queen .portrait-person::before { background: linear-gradient(145deg, rgba(34,211,238,.4), rgba(196,181,253,.3)); }
-	.queen .portrait-person::after { background: linear-gradient(145deg, rgba(34,211,238,.22), rgba(17,19,26,.8)); }
-	.portrait-person span { position: relative; z-index: 1; color: rgba(255,255,255,.88); font-size: .72rem; font-weight: 700; letter-spacing: .16em; }
-	.member-card:hover .portrait-person { transform: scale(1.045); }
-	.portrait-label { position: absolute; right: 18px; bottom: 16px; left: 18px; display: flex; justify-content: space-between; gap: 12px; color: #8d98ab; font-size: .62rem; letter-spacing: .04em; }
-	.portrait-label span:first-child { color: #d3c8fa; text-transform: uppercase; }
-	.member-content { padding: 26px 28px 30px; }
-	.member-index { margin: 0 0 13px; color: #22d3ee; font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-	.member-index span { padding-inline: 5px; color: #718096; }
-	.member-name { margin: 0; font-size: clamp(1.8rem,3vw,2.45rem); font-weight: 680; line-height: 1.08; letter-spacing: -.06em; }
-	.member-role { margin: 8px 0 0; color: var(--accent); font-size: .8rem; font-weight: 600; line-height: 1.6; }
-	.member-introduction { min-height: 100px; margin: 18px 0 20px; color: var(--muted); font-size: .86rem; line-height: 1.8; }
-	.skill-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-	.skill-tag { padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--raised); font-size: .66rem; line-height: 1.2; transition: border-color 180ms ease, color 180ms ease, background 180ms ease; }
-	.skill-tag:hover { border-color: rgba(34,211,238,.55); color: var(--ink); background: rgba(34,211,238,.1); }
-	@media (max-width: 850px) {
+	.team-heading h2 { max-width: 760px; margin: 0 auto; font-size: clamp(3rem, 6.4vw, 5.8rem); font-weight: 720; line-height: 1; letter-spacing: -.075em; }
+	.heading-description { max-width: 680px; margin: 22px auto 0; color: var(--muted); font-size: 1rem; line-height: 1.8; }
+	.team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; perspective: 1100px; }
+	.profile-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--card); box-shadow: 0 24px 70px rgba(0,0,0,.12); transform-style: preserve-3d; transition: border-color 220ms ease, box-shadow 220ms ease; }
+	.profile-card.queen { margin-top: 36px; }
+	.profile-card:hover { border-color: rgba(34,211,238,.38); box-shadow: 0 28px 80px rgba(34,211,238,.10), 0 24px 70px rgba(0,0,0,.18); }
+	.profile-card.queen:hover { border-color: rgba(167,139,250,.42); box-shadow: 0 28px 80px rgba(167,139,250,.12), 0 24px 70px rgba(0,0,0,.18); }
+	.profile-visual { position: relative; height: clamp(430px, 38vw, 520px); overflow: hidden; isolation: isolate; background: radial-gradient(circle at 72% 38%, rgba(139,92,246,.24), transparent 34%), linear-gradient(145deg, rgba(17,19,26,.96), rgba(8,9,13,.96)); }
+	.queen .profile-visual { background: radial-gradient(circle at 30% 38%, rgba(34,211,238,.20), transparent 34%), linear-gradient(145deg, rgba(13,18,22,.96), rgba(19,16,27,.96)); }
+	.visual-grid { position: absolute; z-index: -1; inset: 0; opacity: .22; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 38px 38px; mask-image: radial-gradient(ellipse at center, black, transparent 78%); transform: perspective(500px) rotateX(8deg); }
+	.visual-glow { position: absolute; z-index: -1; width: 290px; height: 290px; border-radius: 50%; background: radial-gradient(circle, rgba(139,92,246,.38), rgba(34,211,238,.08) 48%, transparent 72%); filter: blur(18px); top: 20%; left: 50%; transform: translateX(-50%); }
+	.queen .visual-glow { background: radial-gradient(circle, rgba(34,211,238,.30), rgba(167,139,250,.12) 48%, transparent 72%); }
+	.visual-ring { position: absolute; z-index: -1; top: 50%; left: 50%; width: 360px; height: 360px; border: 1px solid rgba(167,139,250,.30); border-radius: 50%; transform: translate(-50%, -50%) rotate(-24deg) scaleX(.72); }
+	.ring-two { width: 420px; height: 420px; border-color: rgba(34,211,238,.18); border-style: dashed; transform: translate(-50%, -50%) rotate(38deg) scaleX(.74); }
+	.queen .ring-one { border-color: rgba(34,211,238,.28); }
+	.queen .ring-two { border-color: rgba(167,139,250,.22); }
+	.portrait-frame { position: absolute; z-index: 2; right: 50%; bottom: 0; width: min(74%, 390px); height: calc(100% - 30px); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 180px 180px 20px 20px; background: rgba(255,255,255,.04); box-shadow: 0 30px 70px rgba(0,0,0,.38), inset 0 1px rgba(255,255,255,.14); transform: translateX(50%); transform-style: preserve-3d; will-change: transform; }
+	.portrait-frame img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: 50% 18%; filter: saturate(.78) contrast(1.04); transition: filter 300ms ease, transform 700ms cubic-bezier(.2,.8,.2,1); }
+	.queen .portrait-frame img { object-position: 50% 20%; filter: saturate(.72) contrast(1.05); }
+	.profile-card:hover .portrait-frame img { filter: saturate(.92) contrast(1.04); transform: scale(1.025); }
+	.portrait-sheen { position: absolute; inset: 0; background: linear-gradient(118deg, transparent 32%, rgba(255,255,255,.08) 48%, transparent 60%); transform: translateX(-100%); transition: transform 900ms ease; pointer-events: none; }
+	.profile-card:hover .portrait-sheen { transform: translateX(100%); }
+	.visual-status { position: absolute; z-index: 3; right: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; color: #dfe7ef; background: rgba(8,9,13,.68); backdrop-filter: blur(12px); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+	.visual-status i { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+	.queen .visual-status i { background: #a78bfa; box-shadow: 0 0 12px #a78bfa; }
+	.creator-mark { position: absolute; z-index: 3; top: 18px; left: 18px; display: grid; width: 46px; height: 46px; place-items: center; border: 1px solid rgba(255,255,255,.14); border-radius: 50%; color: #d6def0; background: rgba(8,9,13,.46); backdrop-filter: blur(10px); font-size: .72rem; font-weight: 750; }
+	.profile-content { min-height: 230px; padding: 26px 28px 30px; background: linear-gradient(180deg, rgba(255,255,255,.015), transparent); }
+	.member-index { margin: 0 0 12px; color: var(--cyan); font-size: .66rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+	.queen .member-index { color: #b8a4f8; }
+	.profile-content h3 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.45rem); font-weight: 680; line-height: 1.05; letter-spacing: -.055em; }
+	.member-role { margin: 9px 0 0; color: var(--accent); font-size: .82rem; font-weight: 650; line-height: 1.5; }
+	.member-introduction { margin: 18px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.78; }
+	@media (max-width: 900px) {
 		.about-team { padding: 86px 0 94px; }
 		.team-grid { gap: 16px; }
-		.member-card.queen { margin-top: 34px; }
-		.member-portrait { min-height: 290px; }
-		.member-content { padding: 23px 20px 25px; }
-		.member-introduction { min-height: 130px; }
+		.profile-visual { height: 390px; }
+		.profile-content { min-height: 250px; padding-inline: 22px; }
 	}
 	@media (max-width: 640px) {
 		.about-team { padding: 74px 0 82px; }
 		.team-heading { margin-bottom: 38px; text-align: left; }
-		.team-heading h2 { font-size: clamp(2.8rem,11.5vw,4.2rem); }
-		.heading-description { margin-inline: 0; font-size: .9rem; }
+		.team-heading h2 { max-width: 420px; margin-inline: 0; font-size: clamp(2.7rem, 12vw, 4.1rem); }
+		.heading-description { margin-inline: 0; font-size: .92rem; }
 		.team-grid { grid-template-columns: 1fr; gap: 18px; }
-		.member-card.queen { margin-top: 0; }
-		.member-portrait { min-height: clamp(260px,78vw,360px); }
-		.member-content { padding: 23px 22px 27px; }
-		.member-name { font-size: clamp(1.9rem,8vw,2.6rem); }
-		.member-introduction { min-height: 0; }
+		.profile-card.queen { margin-top: 0; }
+		.profile-visual { height: clamp(390px, 118vw, 520px); }
+		.portrait-frame { width: min(78%, 390px); }
+		.profile-content { min-height: 0; padding: 23px 22px 27px; }
+		.profile-content h3 { font-size: clamp(1.9rem, 8vw, 2.6rem); }
+		.member-introduction { font-size: .86rem; }
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.member-card,.portrait-person,.skill-tag { transition: none; }
+		.profile-card,.portrait-frame,.portrait-frame img,.portrait-sheen { transition: none; }
 	}
 </style>
