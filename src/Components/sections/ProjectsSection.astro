@@ -1,4 +1,6 @@
 ---
+import Card from "../Card.astro";
+
 const projects = [
 	{
 		name: "Vantage",
@@ -31,25 +33,7 @@ const projects = [
 			<a href="/contact/">Discuss a similar project <span aria-hidden="true">↗</span></a>
 		</div>
 		<div class="project-grid" data-reveal-stagger>
-			{projects.map((project) => (
-				<details class={`project project-${project.theme}`}>
-					<summary>
-						<div class="project-preview" aria-hidden="true">
-							<div class="mock-browser"><div class="browser-bar"><i></i><i></i><i></i><span>preview.studio</span></div><div class="mock-content"><b></b><i></i><i></i><span></span></div></div>
-							<div class="preview-orb"></div>
-						</div>
-						<div class="project-info">
-							<div><p>{project.category}</p><h3>{project.name}</h3></div>
-							<span class="open-project">+</span>
-						</div>
-						<span class="sr-only">Toggle concept details for {project.name}</span>
-					</summary>
-					<div class="project-details">
-						<p>{project.description}</p>
-						<ul>{project.technologies.map((technology) => <li>{technology}</li>)}</ul>
-					</div>
-				</details>
-			))}
+			{projects.map((project) => <Card variant="project" item={project} />)}
 		</div>
 		<p class="project-note">Concept work shown for demonstration. We’d love to add your real-world challenge next.</p>
 	</div>

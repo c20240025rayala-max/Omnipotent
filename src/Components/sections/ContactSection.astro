@@ -16,30 +16,6 @@
 					Email address
 					<input name="email" type="email" autocomplete="email" required />
 				</label>
-				<div class="form-row">
-					<label>
-						Project type
-						<select name="projectType" required>
-							<option value="" disabled selected>Select one</option>
-							<option>Website</option>
-							<option>Web application</option>
-							<option>E-commerce</option>
-							<option>Design and development</option>
-							<option>Ongoing support</option>
-							<option>Not sure yet</option>
-						</select>
-					</label>
-					<label>
-						Budget range
-						<select name="budget">
-							<option value="" selected>Prefer to discuss</option>
-							<option>Under $5,000</option>
-							<option>$5,000–$15,000</option>
-							<option>$15,000–$30,000</option>
-							<option>$30,000+</option>
-						</select>
-					</label>
-				</div>
 				<label>
 					What are you looking to build?
 					<textarea name="projectDescription" rows="4" required></textarea>
@@ -78,8 +54,6 @@
 		const body = [
 			`Name: ${fields.get("name")}`,
 			`Email: ${fields.get("email")}`,
-			`Project type: ${fields.get("projectType")}`,
-			`Budget: ${fields.get("budget") || "Prefer to discuss"}`,
 			"",
 			"Project details:",
 			String(fields.get("projectDescription")),
@@ -105,7 +79,6 @@
 	option { color: var(--ink); background: var(--card); }
 	textarea { min-height: 112px; resize: vertical; }
 	input:focus,select:focus,textarea:focus { border-color: #a78bfa; outline: 2px solid rgba(167,139,250,.22); }
-	.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 	button { display: flex; min-height: 48px; align-items: center; justify-content: space-between; padding: 0 17px; border: 0; border-radius: 9px; color: var(--button-ink); background: var(--cyan); font-size: .84rem; font-weight: 750; cursor: pointer; transition: background 180ms ease, transform 180ms ease; }
 	button:hover { transform: translateY(-2px); background: #67e8f9; }
 	.form-note { margin: -7px 0 0; color: #8490a2; font-size: .68rem; line-height: 1.6; }
@@ -124,7 +97,6 @@
 		.copyright { margin-top: 0; }
 	}
 	@media (max-width: 520px) {
-		.form-row { grid-template-columns: 1fr; }
 		.footer-row { grid-template-columns: 1fr; gap: 14px; }
 		.footer-row nav { grid-column: 1; justify-content: start; gap: 15px; }
 		.copyright { grid-column: 1; }

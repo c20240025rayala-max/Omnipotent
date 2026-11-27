@@ -1,4 +1,6 @@
 ---
+import Card from "../Card.astro";
+
 const principles = [
 	["01", "Modern by default", "Current tools and proven patterns, chosen to suit the job and your team."],
 	["02", "Built to last", "Readable, maintainable code that can grow without becoming a burden."],
@@ -17,10 +19,7 @@ const principles = [
 		</div>
 		<div class="principles" data-reveal-stagger>
 			{principles.map(([number, title, description]) => (
-				<article>
-					<span>{number}</span>
-					<div><h3>{title}</h3><p>{description}</p></div>
-				</article>
+				<Card variant="principle" item={{ number, title, description }} />
 			))}
 		</div>
 	</div>

@@ -1,4 +1,6 @@
 ---
+import Card from "../Card.astro";
+
 const team = [
 	{
 		initials: "RR",
@@ -47,28 +49,7 @@ const team = [
 		</header>
 
 		<div class="team-grid">
-			{team.map((member, index) => (
-				<article class={`member-card ${member.className}`}>
-					<div class="member-portrait" role="img" aria-label={`Portrait placeholder for ${member.name}`}>
-						<div class="portrait-grid" aria-hidden="true"></div>
-						<div class="portrait-glow" aria-hidden="true"></div>
-						<div class="portrait-ring ring-one" aria-hidden="true"></div>
-						<div class="portrait-ring ring-two" aria-hidden="true"></div>
-						<div class="portrait-person" aria-hidden="true"><span>{member.initials}</span></div>
-						<div class="portrait-label"><span>Creator {String(index + 1).padStart(2, "0")}</span><span>Profile image placeholder</span></div>
-					</div>
-
-					<div class="member-content">
-						<p class="member-index">0{index + 1} <span>—</span> Omnipotent Studio</p>
-						<h3 class="member-name">{member.name}</h3>
-						<p class="member-role">{member.role}</p>
-						<p class="member-introduction">{member.introduction}</p>
-						<ul class="skill-list" aria-label={`${member.name}'s skills`}>
-							{member.skills.map((skill) => <li class="skill-tag">{skill}</li>)}
-						</ul>
-					</div>
-				</article>
-			))}
+			{team.map((member, index) => <Card variant="team" item={member} index={index} />)}
 		</div>
 	</div>
 </section>

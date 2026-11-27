@@ -1,4 +1,6 @@
 ---
+import Card from "../Card.astro";
+
 const services = [
 	{
 		number: "01",
@@ -49,16 +51,7 @@ const services = [
 			<p>One focused team from first idea to ongoing improvement. Bring us a specific challenge or a blank page.</p>
 		</div>
 		<div class="service-grid" data-reveal-stagger>
-			{services.map((service) => (
-				<article>
-					<div class="card-top"><span class="number">{service.number}</span><span class="arrow" aria-hidden="true">↗</span></div>
-					<h3>{service.title}</h3>
-					<p class="description">{service.description}</p>
-					<ul>
-						{service.details.map((detail) => <li>{detail}</li>)}
-					</ul>
-				</article>
-			))}
+			{services.map((service) => <Card variant="service" item={service} />)}
 		</div>
 		<div class="service-footnote" data-reveal>
 			<p>Not sure what you need yet?</p>

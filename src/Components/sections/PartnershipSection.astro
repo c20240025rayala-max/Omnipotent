@@ -1,3 +1,13 @@
+---
+import Card from "../Card.astro";
+
+const principles = [
+	{ title: "01 / Listen first", description: "We take time to understand your goals and context before recommending a solution." },
+	{ title: "02 / Make it clear", description: "You’ll know what we’re doing, why it matters, and what decisions are coming next." },
+	{ title: "03 / Build together", description: "Your feedback shapes the work throughout—not just at the final handoff." },
+];
+---
+
 <section class="partnership">
 	<div class="container">
 		<div class="partnership-heading" data-reveal>
@@ -5,18 +15,7 @@
 			<h2>A thoughtful process.<br /><span>A real partnership.</span></h2>
 		</div>
 		<div class="principles" data-reveal-stagger>
-			<article>
-				<span>01 / Listen first</span>
-				<p>We take time to understand your goals and context before recommending a solution.</p>
-			</article>
-			<article>
-				<span>02 / Make it clear</span>
-				<p>You’ll know what we’re doing, why it matters, and what decisions are coming next.</p>
-			</article>
-			<article>
-				<span>03 / Build together</span>
-				<p>Your feedback shapes the work throughout—not just at the final handoff.</p>
-			</article>
+			{principles.map((principle) => <Card variant="partnership" item={principle} />)}
 		</div>
 		<p class="note">We’re building our public portfolio. Client testimonials will be added with permission.</p>
 	</div>

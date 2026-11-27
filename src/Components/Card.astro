@@ -1,0 +1,203 @@
+---
+interface Props {
+	variant: "service" | "project" | "process" | "principle" | "partnership" | "team";
+	item: Record<string, any>;
+	index?: number;
+}
+
+const { variant, item, index = 0 } = Astro.props;
+---
+
+{variant === "service" && (
+	<article class="card service-card">
+		<div class="card-top"><span class="number">{item.number}</span><span class="arrow" aria-hidden="true">↗</span></div>
+		<h3>{item.title}</h3>
+		<p class="description">{item.description}</p>
+		<ul>
+			{item.details.map((detail: string) => <li>{detail}</li>)}
+		</ul>
+	</article>
+)}
+
+{variant === "project" && (
+	<details class={`card project project-${item.theme}`}>
+		<summary>
+			<div class="project-preview" aria-hidden="true">
+				<div class="mock-browser"><div class="browser-bar"><i></i><i></i><i></i><span>preview.studio</span></div><div class="mock-content"><b></b><i></i><i></i><span></span></div></div>
+				<div class="preview-orb"></div>
+			</div>
+			<div class="project-info">
+				<div><p>{item.category}</p><h3>{item.name}</h3></div>
+				<span class="open-project">+</span>
+			</div>
+			<span class="sr-only">Toggle concept details for {item.name}</span>
+		</summary>
+		<div class="project-details">
+			<p>{item.description}</p>
+			<ul>{item.technologies.map((technology: string) => <li>{technology}</li>)}</ul>
+		</div>
+	</details>
+)}
+
+{variant === "process" && (
+	<li class="card process-card">
+		<span class="number">{item.number}</span>
+		<div><h3>{item.title}</h3><p>{item.description}</p></div>
+		<span class="step-mark" aria-hidden="true">↗</span>
+	</li>
+)}
+
+{variant === "principle" && (
+	<article class="card principle-card">
+		<span>{item.number}</span>
+		<div><h3>{item.title}</h3><p>{item.description}</p></div>
+	</article>
+)}
+
+{variant === "partnership" && (
+	<article class="card partnership-card">
+		<span>{item.title}</span>
+		<p>{item.description}</p>
+	</article>
+)}
+
+{variant === "team" && (
+	<article class={`card member-card ${item.className}`}>
+		<div class="member-portrait" role="img" aria-label={`Portrait placeholder for ${item.name}`}>
+			<div class="portrait-grid" aria-hidden="true"></div>
+			<div class="portrait-glow" aria-hidden="true"></div>
+			<div class="portrait-ring ring-one" aria-hidden="true"></div>
+			<div class="portrait-ring ring-two" aria-hidden="true"></div>
+			<div class="portrait-person" aria-hidden="true"><span>{item.initials}</span></div>
+			<div class="portrait-label"><span>Creator {String(index + 1).padStart(2, "0")}</span><span>Profile image placeholder</span></div>
+		</div>
+		<div class="member-content">
+			<p class="member-index">0{index + 1} <span>—</span> Omnipotent Studio</p>
+			<h3 class="member-name">{item.name}</h3>
+			<p class="member-role">{item.role}</p>
+			<p class="member-introduction">{item.introduction}</p>
+			<ul class="skill-list" aria-label={`${item.name}'s skills`}>
+				{item.skills.map((skill: string) => <li class="skill-tag">{skill}</li>)}
+			</ul>
+		</div>
+	</article>
+)}
+
+<style>
+	/* Service */
+	.service-card { min-height: 285px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); transition: transform 200ms ease, border-color 200ms ease, background 200ms ease; }
+	.card-top { display: flex; align-items: center; justify-content: space-between; }
+	.number { color: var(--cyan); font-size: .72rem; font-weight: 750; letter-spacing: .12em; }
+	.arrow { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: #b6a7fa; transition: transform 200ms ease, background 200ms ease; }
+	.service-card:hover .arrow { transform: rotate(45deg); background: rgba(139,92,246,.18); }
+	.service-card h3 { margin: 30px 0 10px; font-size: 1.17rem; letter-spacing: -.035em; text-transform: capitalize; }
+	.service-card .description { min-height: 52px; margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.7; }
+	.service-card ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 18px 0 0; padding: 0; list-style: none; }
+	.service-card li { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); font-size: .66rem; }
+
+	/* Project */
+	.project { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: var(--surface); }
+	.project:last-child { grid-column: 1 / -1; }
+	summary { display: block; cursor: pointer; list-style: none; }
+	summary::-webkit-details-marker { display: none; }
+	.project-preview { position: relative; display: grid; min-height: 300px; overflow: hidden; place-items: center; }
+	.project-violet .project-preview { background: radial-gradient(circle at 68% 42%, rgba(139,92,246,.34), transparent 34%), #181522; }
+	.project-green .project-preview { background: radial-gradient(circle at 68% 42%, rgba(34,197,94,.2), transparent 34%), #101a18; }
+	.project-cyan .project-preview { background: radial-gradient(circle at 68% 42%, rgba(34,211,238,.18), transparent 34%), #111a20; }
+	.mock-browser { position: relative; z-index: 1; width: 68%; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 10px; background: #0c0d12; box-shadow: 0 24px 70px rgba(0,0,0,.4); transform: rotate(-3deg); transition: transform 450ms cubic-bezier(.2,.8,.2,1); }
+	.project-green .mock-browser { transform: rotate(3deg); }
+	.project-cyan .mock-browser { width: 72%; transform: rotate(-2deg); }
+	summary:hover .mock-browser { transform: rotate(0) scale(1.04); }
+	.browser-bar { display: flex; height: 29px; align-items: center; gap: 4px; padding: 0 9px; border-bottom: 1px solid rgba(255,255,255,.08); }
+	.browser-bar i { width: 5px; height: 5px; border-radius: 50%; background: #64748b; }
+	.browser-bar span { margin-left: 7px; color: #748093; font-size: .55rem; }
+	.mock-content { display: grid; min-height: 185px; align-content: center; gap: 11px; padding: 24px; }
+	.mock-content b { width: 58%; height: 18px; border-radius: 3px; background: #a78bfa; }
+	.mock-content i { width: 82%; height: 5px; border-radius: 8px; background: #343643; }
+	.mock-content i:last-of-type { width: 65%; }
+	.mock-content span { width: 66px; height: 19px; margin-top: 5px; border-radius: 999px; background: #8b5cf6; }
+	.project-green .mock-content b { background: #4ade80; }.project-green .mock-content span { background: #16a34a; }
+	.project-cyan .mock-content b { background: #67e8f9; }.project-cyan .mock-content span { background: #0891b2; }
+	.preview-orb { position: absolute; top: 16%; right: 12%; width: 74px; height: 74px; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; box-shadow: 0 0 50px rgba(167,139,250,.17); }
+	.project-info { display: flex; align-items: center; justify-content: space-between; padding: 21px 23px; }
+	.project-info p { margin: 0 0 7px; color: var(--muted); font-size: .7rem; }
+	.project-info h3 { margin: 0; font-size: 1.5rem; letter-spacing: -.05em; }
+	.open-project { display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--accent); font-size: 1.15rem; transition: transform 200ms ease, background 200ms ease; }
+	details[open] .open-project { transform: rotate(45deg); background: rgba(139,92,246,.15); }
+	.project-details { padding: 0 23px 23px; animation: details-in 220ms ease both; }
+	.project-details p { max-width: 700px; margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.75; }
+	.project-details ul { margin: 15px 0 0; }
+	.project-details li { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); font-size: .68rem; }
+	@keyframes details-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+	/* Process */
+	.process-card { position: relative; min-height: 235px; padding: 0 18px 22px 0; border: 0; border-radius: 0; background: transparent; list-style: none; }
+	.process-card .number { position: relative; z-index: 1; display: grid; width: 42px; height: 42px; place-items: center; margin-bottom: 26px; border: 1px solid rgba(167,139,250,.45); border-radius: 50%; color: var(--accent); background: var(--surface); font-size: .72rem; }
+	.process-card h3 { margin: 0 0 10px; font-size: 1.1rem; text-transform: none; }
+	.process-card p { max-width: 250px; margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.75; }
+	.step-mark { position: absolute; right: 14px; bottom: 20px; color: #677085; font-size: .9rem; }
+
+	/* Principle */
+	.principle-card { display: grid; min-height: 175px; grid-template-columns: 34px 1fr; gap: 18px; padding: 23px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); border-radius: 0; transition: background 180ms ease; }
+	.principle-card > span { color: var(--cyan); font-size: .7rem; font-weight: 750; }
+	.principle-card h3 { margin: 0 0 8px; font-size: .98rem; text-transform: none; }
+	.principle-card p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.7; }
+
+	/* Partnership */
+	.partnership-card { min-height: 180px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+	.partnership-card > span { color: var(--cyan); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+	.partnership-card p { margin: 28px 0 0; color: var(--ink); font-size: .9rem; line-height: 1.75; }
+
+	/* Team */
+	.member-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--card); transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease; }
+	.member-card.queen { margin-top: 52px; }
+	.member-card:hover { transform: translateY(-5px); border-color: rgba(167,139,250,.4); box-shadow: 0 24px 70px rgba(0,0,0,.24); }
+	.member-portrait { position: relative; display: grid; min-height: 340px; overflow: hidden; place-items: center; isolation: isolate; background: #11131a; clip-path: inset(0 round 14px); }
+	.reden .member-portrait { background: radial-gradient(ellipse at 70% 48%, rgba(139,92,246,.25), transparent 49%), linear-gradient(135deg, #15141f, #10131a); }
+	.queen .member-portrait { background: radial-gradient(ellipse at 34% 50%, rgba(34,211,238,.18), transparent 48%), linear-gradient(145deg, #10171b, #15131d); }
+	.portrait-grid { position: absolute; z-index: -1; inset: 0; opacity: .24; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse at center, black, transparent 75%); }
+	.portrait-glow { position: absolute; z-index: -1; width: 230px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(139,92,246,.42), rgba(34,211,238,.1) 45%, transparent 70%); filter: blur(13px); }
+	.queen .portrait-glow { background: radial-gradient(circle, rgba(34,211,238,.32), rgba(139,92,246,.12) 48%, transparent 72%); }
+	.portrait-ring { position: absolute; z-index: -1; width: 250px; height: 250px; border: 1px solid rgba(196,181,253,.28); border-radius: 50%; transform: rotate(-24deg) scaleX(.72); }
+	.ring-two { width: 290px; height: 290px; border-color: rgba(34,211,238,.18); border-style: dashed; transform: rotate(38deg) scaleX(.74); }
+	.portrait-person { position: relative; display: grid; width: 172px; height: 214px; align-items: end; justify-items: center; padding-bottom: 22px; border: 1px solid rgba(255,255,255,.24); border-radius: 49% 49% 18px 18px; background: linear-gradient(155deg, rgba(167,139,250,.32), rgba(34,211,238,.12) 44%, rgba(17,19,26,.86) 78%); box-shadow: 0 22px 65px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.18); transition: transform 450ms cubic-bezier(.2,.8,.2,1); }
+	.portrait-person::before { position: absolute; top: 28px; left: 50%; width: 68px; height: 68px; border: 1px solid rgba(255,255,255,.26); border-radius: 50%; content: ""; background: linear-gradient(145deg, rgba(196,181,253,.48), rgba(34,211,238,.16)); box-shadow: 0 0 35px rgba(139,92,246,.18); transform: translateX(-50%); }
+	.portrait-person::after { position: absolute; right: 21px; bottom: 60px; left: 21px; height: 78px; border: 1px solid rgba(255,255,255,.14); border-radius: 60% 60% 14px 14px; content: ""; background: linear-gradient(145deg, rgba(139,92,246,.3), rgba(17,19,26,.78)); }
+	.queen .portrait-person { background: linear-gradient(155deg, rgba(34,211,238,.26), rgba(167,139,250,.16) 48%, rgba(17,19,26,.88) 78%); }
+	.portrait-person span { position: relative; z-index: 1; color: rgba(255,255,255,.88); font-size: .72rem; font-weight: 700; letter-spacing: .16em; }
+	.member-card:hover .portrait-person { transform: scale(1.045); }
+	.portrait-label { position: absolute; right: 18px; bottom: 16px; left: 18px; display: flex; justify-content: space-between; gap: 12px; color: #8d98ab; font-size: .62rem; letter-spacing: .04em; }
+	.member-content { padding: 26px 28px 30px; }
+	.member-index { margin: 0 0 13px; color: #22d3ee; font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+	.member-index span { padding-inline: 5px; color: #718096; }
+	.member-name { margin: 0; font-size: clamp(1.8rem,3vw,2.45rem); font-weight: 680; line-height: 1.08; letter-spacing: -.06em; }
+	.member-role { margin: 8px 0 0; color: var(--accent); font-size: .8rem; font-weight: 600; line-height: 1.6; }
+	.member-introduction { min-height: 100px; margin: 18px 0 20px; color: var(--muted); font-size: .86rem; line-height: 1.8; }
+	.skill-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+	.skill-tag { padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--raised); font-size: .66rem; line-height: 1.2; }
+
+	@media (max-width: 850px) {
+		.member-card.queen { margin-top: 34px; }
+		.member-portrait { min-height: 290px; }
+		.member-content { padding: 23px 20px 25px; }
+		.member-introduction { min-height: 130px; }
+	}
+	@media (max-width: 640px) {
+		.member-card.queen { margin-top: 0; }
+		.member-portrait { min-height: clamp(260px,78vw,360px); }
+		.member-content { padding: 23px 22px 27px; }
+		.member-name { font-size: clamp(1.9rem,8vw,2.6rem); }
+		.member-introduction { min-height: 0; }
+	}
+	@media (max-width: 600px) {
+		.project-preview { min-height: 240px; }
+		.mock-content { min-height: 150px; }
+	}
+	@media (max-width: 520px) {
+		.process-card { min-height: 0; padding-bottom: 24px; }
+		.process-card p { max-width: none; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.member-card,.portrait-person,.skill-tag { transition: none; }
+	}
+</style>

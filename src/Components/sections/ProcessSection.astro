@@ -1,4 +1,6 @@
 ---
+import Card from "../Card.astro";
+
 const steps = [
 	{
 		number: "01",
@@ -30,13 +32,7 @@ const steps = [
 			<p>Good work comes from clear decisions and close collaboration. Here’s what working together looks like.</p>
 		</div>
 		<ol class="process-list" data-reveal-stagger>
-			{steps.map((step) => (
-				<li>
-					<span class="number">{step.number}</span>
-					<div><h3>{step.title}</h3><p>{step.description}</p></div>
-					<span class="step-mark" aria-hidden="true">↗</span>
-				</li>
-			))}
+			{steps.map((step) => <Card variant="process" item={step} />)}
 		</ol>
 	</div>
 </section>
